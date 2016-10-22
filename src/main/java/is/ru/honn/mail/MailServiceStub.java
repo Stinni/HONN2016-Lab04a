@@ -7,10 +7,10 @@ public class MailServiceStub implements MailService
 {
     public void send(String from, String to, String subject, String body)
     {
-        System.out.println("Mail from: " + from +
-                "to: " + to +
-                " Subject: " + subject);
-        System.out.println(body);
+        System.out.println("Mail from: " + from);
+        System.out.println("To: " + to);
+        System.out.println("Subject: " + subject);
+        System.out.println("Body: " + body);
     }
 
     public static void main(String args[]) {

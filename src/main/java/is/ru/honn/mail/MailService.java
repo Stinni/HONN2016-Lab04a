@@ -5,5 +5,6 @@ package is.ru.honn.mail;
  */
 public interface MailService
 {
-    void send(String from, String to, String subject, String body);
+    public void setMailServer(String mailServer);
+    void send(MailMessage message);
 }

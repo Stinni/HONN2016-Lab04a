@@ -1,21 +1,22 @@
 package is.ru.honn.mail;
 
+import java.util.logging.Logger;
+
 /**
  * Created by KristinnHeiðar on 22.10.2016.
  */
-public class MailServiceStub implements MailService
+public class MailServiceStub extends AbstractMailService
 {
-    public void send(String from, String to, String subject, String body)
-    {
-        System.out.println("Mail from: " + from);
-        System.out.println("To: " + to);
-        System.out.println("Subject: " + subject);
-        System.out.println("Body: " + body);
-    }
+    private Logger logger = Logger.getLogger(MailServiceStub.class.getName());
 
-    public static void main(String args[]) {
-        MailServiceStub service = new MailServiceStub();
-        service.send("kristinnf13@ru.is", "rugludallur@gmail.com", "SMTPMailService Test",
-                "This is just to test if I can send or use the given code in HONN2016-Lab04a");
+    public void send(MailMessage message)
+    {
+        logger.info("Mail Server: " + this.getMailServer());
+        logger.info("Sending mail from '" + message.getFrom() + "' to '" + message.getTo() + "'\n" +
+                "with subject: '" + message.getSubject() + "' and body: \n" + message.getBody());
+        /*System.out.println("Mail from: " + message.getFrom());
+        System.out.println("To: " + message.getTo());
+        System.out.println("Subject: " + message.getSubject());
+        System.out.println("Body: " + message.getBody());*/
     }
 }

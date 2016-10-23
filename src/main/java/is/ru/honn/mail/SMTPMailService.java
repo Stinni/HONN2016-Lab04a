@@ -7,33 +7,36 @@ import javax.mail.Transport;
 import javax.mail.Message;
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * Created by KristinnHeiðar on 22.10.2016.
  */
-public class SMTPMailService implements MailService
+public class SMTPMailService extends AbstractMailService
 {
-    public void send(String from, String to, String subject, String body)
+    public void send(MailMessage message)
     {
-        //String smtpServer = "smtp.ru.is";
-        String smtpServer = "postur.simnet.is";
+        Logger logger = Logger.getLogger(SMTPMailService.class.getName());
+
         try
         {
             Properties props = System.getProperties();
-            props.put("mail.smtp.host", smtpServer);
+            props.put("mail.smtp.host", getMailServer());
             Session session = Session.getDefaultInstance(props, null);
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(from));
+            msg.setFrom(new InternetAddress(message.getFrom()));
             msg.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to, false));
-            msg.setSubject(subject);
-            msg.setText(body);
+                    InternetAddress.parse(message.getTo(), false));
+            msg.setSubject(message.getSubject());
+            msg.setText(message.getBody());
             msg.setSentDate(new Date());
             Transport.send(msg);
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            String msg = "MailService: Sending mail failed: " + ex.getMessage();
+            logger.severe(msg);
+            throw new MailServiceException(msg, ex);
         }
     }
 }
